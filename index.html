@@ -3,40 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SerraFi · Customer Intelligence Engine</title>
+<title>SerraFi · Customer Intelligence Engine — Intro</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #000; font-family: 'Inter', sans-serif; }
 
-  html, body {
-    width: 100%; height: 100%;
-    background: #000;
-    font-family: 'Inter', sans-serif;
-    overflow: hidden;
-  }
-
-  .slide-wrapper {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    overflow: hidden;
-  }
-
-  /* ── SLIDE CANVAS (locked to 16:9) ── */
   .slide {
-    width: 1920px;
-    height: 1080px;
+    width: 100%; height: 100%;
     background: #F5F3EF;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-origin: center center;
+    position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
   }
 
-  /* ── GRADIENT TEXT ── */
+  /* gradient text utility */
   .grad-text {
     background: linear-gradient(90deg, #C04E8A 0%, #E06B50 50%, #F0A830 100%);
     -webkit-background-clip: text;
@@ -45,222 +32,319 @@
     display: inline-block;
   }
 
-  /* ── AMBIENT LIGHT LEAKS ── */
-  .leak {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
+  /* ambient leaks */
+  .leak { position: absolute; border-radius: 50%; pointer-events: none; }
+  .leak-tl {
+    width: 560px; height: 560px;
+    background: radial-gradient(circle, rgba(107,63,160,0.10) 0%, transparent 70%);
+    top: -160px; left: -120px;
   }
-  .leak-purple {
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(107,63,160,0.12) 0%, transparent 70%);
-    top: -120px; left: -80px;
-  }
-  .leak-gold {
+  .leak-br {
     width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(240,168,48,0.14) 0%, transparent 70%);
-    bottom: -200px; right: 400px;
+    background: radial-gradient(circle, rgba(240,168,48,0.10) 0%, transparent 70%);
+    bottom: -200px; right: 200px;
   }
 
-  /* ── MAIN GRID ── */
-  .grid {
-    flex: 1;
-    min-height: 0;
-    display: grid;
-    grid-template-columns: 52% 1fr;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ── LEFT PANEL ── */
-  .left {
-    display: flex;
-    flex-direction: column;
-    padding: 52px 0 28px 80px;
-  }
-
-  .logotype {
-    font-size: 26px;
-    font-weight: 700;
-    color: rgba(0,0,0,0.3);
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    margin-bottom: 44px;
-  }
-
-  .title-block {
-    position: relative;
-    margin-bottom: 38px;
-  }
-
-  .title-kicker {
-    font-size: 26px;
-    font-weight: 500;
-    color: rgba(0,0,0,0.35);
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    position: relative;
-  }
-
-  .title-main {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    line-height: 0.95;
-  }
-
-  .t1 {
-    font-size: 96px;
-    font-weight: 200;
-    color: rgba(0,0,0,0.75);
-    letter-spacing: -4px;
-    font-style: italic;
-  }
-  .t2 {
-    font-size: 100px;
-    font-weight: 900;
-    letter-spacing: -5px;
-    padding-bottom: 10px;
-    line-height: 1.05;
-  }
-  .t3 {
-    font-size: 96px;
-    font-weight: 200;
-    color: rgba(0,0,0,0.75);
-    letter-spacing: -4px;
-  }
-
-  .divider-line {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(192,78,138,0.6) 0%, rgba(224,107,80,0.4) 40%, transparent 100%);
-    margin-bottom: 30px;
-  }
-
-  .descriptor {
-    font-size: 26px;
-    font-weight: 400;
-    color: rgba(0,0,0,0.5);
-    line-height: 1.55;
-    max-width: 760px;
-    margin-bottom: 34px;
-  }
-  .descriptor strong {
-    color: rgba(0,0,0,0.8);
-    font-weight: 500;
-  }
-
-  /* Bullet rows */
-  .rows {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .row {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 16px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-  }
-  .row:first-child {
-    border-top: 1px solid rgba(0,0,0,0.08);
-  }
-  .row-pip {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .row-text {
-    font-size: 24px;
-    font-weight: 400;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.3;
-  }
-
-  /* ── RIGHT PANEL ── */
-  .right {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  /* Rotating radar */
-  .radar-wrap {
-    position: absolute;
-    width: 900px;
-    height: 900px;
-    right: -160px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  .radar-svg {
-    width: 100%;
-    height: 100%;
-    animation: radarSpin 80s linear infinite;
-  }
-  @keyframes radarSpin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-
-  /* Question cards */
-  .questions {
+  /* ── TOP HEADER ── */
+  .header {
     position: relative;
     z-index: 2;
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 0 48px 0 0;
-    width: 100%;
-  }
-
-  .q-card {
-    background: rgba(255,255,255,0.75);
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 16px;
-    padding: 28px 32px;
-    display: flex;
     align-items: flex-start;
-    gap: 22px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-  .q-card:hover {
-    border-color: rgba(0,0,0,0.15);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    justify-content: space-between;
+    padding: 40px 80px 0 80px;
+    margin-bottom: 28px;
   }
 
-  .q-num {
-    font-size: 54px;
-    font-weight: 900;
-    line-height: 1;
-    flex-shrink: 0;
-    letter-spacing: -2px;
+  .header-left {}
+
+  .logotype {
+    font-size: 24px;
+    font-weight: 700;
+    color: rgba(0,0,0,0.28);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
   }
-  .q-label {
-    font-size: 18px;
+  .presented-by {
+    font-size: 24px;
+    font-weight: 400;
+    color: rgba(0,0,0,0.38);
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+  }
+  .presented-by strong {
     font-weight: 600;
+    color: rgba(0,0,0,0.6);
+  }
+
+  .title-block {
+    display: flex;
+    flex-direction: column;
+    line-height: 0.95;
+  }
+  .t1 {
+    font-size: 92px;
+    font-weight: 200;
+    color: rgba(0,0,0,0.72);
+    letter-spacing: -4px;
+    font-style: italic;
+    line-height: 1.02;
+  }
+  .t2 {
+    font-size: 98px;
+    font-weight: 900;
+    letter-spacing: -5px;
+    padding-bottom: 8px;
+    line-height: 1.02;
+  }
+  .t3 {
+    font-size: 92px;
+    font-weight: 200;
+    color: rgba(0,0,0,0.72);
+    letter-spacing: -4px;
+    line-height: 1.02;
+  }
+
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    padding-top: 12px;
+    flex-shrink: 0;
+  }
+  .kicker-tag {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.3);
+  }
+  .nyu-tag {
+    font-size: 26px;
+    font-weight: 700;
+    color: rgba(0,0,0,0.55);
+  }
+
+  /* ── DIVIDER ── */
+  .rule {
+    position: relative;
+    z-index: 2;
+    height: 1px;
+    margin: 0 80px;
+    background: linear-gradient(90deg, #6B3FA0, #C04E8A, #E06B50, #F0A830, transparent);
+    opacity: 0.6;
+    margin-bottom: 28px;
+  }
+
+  /* ── THREE COLUMNS ── */
+  .columns {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr 1px 1fr;
+    gap: 0;
+    padding: 0 80px;
+    min-height: 0;
+    align-items: start;
+  }
+
+  .col-divider {
+    background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.03) 100%);
+    margin: 0 4px;
+  }
+
+  .col {
+    padding: 0 36px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .col:not(:first-child) {
+    padding: 0 36px 0 36px;
+  }
+
+  .col-label {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    background: linear-gradient(90deg, #6B3FA0 0%, #C04E8A 50%, #E06B50 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+
+  /* About column */
+  .about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .stat-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .stat-icon svg { width: 28px; height: 28px; }
+  .stat-copy {}
+  .stat-big {
+    font-size: 30px;
+    font-weight: 800;
+    color: #0A0A14;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .stat-sub {
+    font-size: 24px;
+    font-weight: 400;
+    color: rgba(0,0,0,0.5);
+    line-height: 1.3;
+  }
+
+  /* Problem column */
+  .problem-items {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .problem-item {
+    position: relative;
+    padding: 16px 24px 16px 28px;
+    overflow: hidden;
+  }
+  .problem-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 2px;
+  }
+  .problem-item:nth-child(1)::before { background: #6B3FA0; }
+  .problem-item:nth-child(2)::before { background: #C04E8A; }
+  .problem-item:nth-child(3)::before { background: #E06B50; }
+  .problem-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.5) 100%);
+    border-radius: 0 12px 12px 0;
+    z-index: -1;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-left: none;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+  .problem-num {
+    font-size: 24px;
+    font-weight: 700;
     letter-spacing: 4px;
     text-transform: uppercase;
     margin-bottom: 6px;
-    opacity: 0.6;
+    opacity: 0.3;
   }
-  .q-text {
-    font-size: 30px;
+  .problem-text {
+    font-size: 26px;
     font-weight: 700;
     color: #0A0A14;
     line-height: 1.2;
     letter-spacing: -0.5px;
   }
 
-  /* ── BOTTOM BAR ── */
+  /* Data column */
+  .data-items {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .data-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .data-pip {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0;
+  }
+  .data-copy {}
+  .data-big {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0A0A14;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    display: block;
+  }
+  .data-label {
+    font-size: 24px;
+    font-weight: 400;
+    color: rgba(0,0,0,0.55);
+    line-height: 1.3;
+    display: block;
+  }
+
+  /* ── ANIMATED RADAR ── */
+  .radar-wrap {
+    position: absolute;
+    width: 820px;
+    height: 820px;
+    right: -180px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .radar-svg {
+    width: 100%;
+    height: 100%;
+    animation: radarSpin 90s linear infinite;
+  }
+  @keyframes radarSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* pulse the core dot */
+  @keyframes corePulse {
+    0%, 100% { opacity: 0.6; r: 10; }
+    50%       { opacity: 1;   r: 14; }
+  }
+  .radar-core { animation: corePulse 3s ease-in-out infinite; }
+
+  /* float the light leaks */
+  @keyframes floatTL {
+    0%, 100% { transform: translate(0,0); }
+    50%       { transform: translate(30px, 20px); }
+  }
+  @keyframes floatBR {
+    0%, 100% { transform: translate(0,0); }
+    50%       { transform: translate(-20px, -30px); }
+  }
+  .leak-tl { animation: floatTL 12s ease-in-out infinite; }
+  .leak-br { animation: floatBR 15s ease-in-out infinite; }
+
   .bottom {
     position: relative;
     z-index: 2;
@@ -268,7 +352,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 80px;
-    height: 72px;
+    height: 64px;
+    margin-top: 20px;
     border-top: 1px solid rgba(0,0,0,0.08);
     background: rgba(255,255,255,0.5);
   }
@@ -278,13 +363,13 @@
     top: 0; left: 0; right: 0;
     height: 1px;
     background: linear-gradient(90deg, #6B3FA0, #C04E8A, #E06B50, #F0A830);
-    opacity: 0.7;
+    opacity: 0.6;
   }
   .b-left, .b-right {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 500;
     color: rgba(0,0,0,0.35);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
   }
   .b-right span { color: rgba(0,0,0,0.6); }
   .b-center {
@@ -299,134 +384,222 @@
 </style>
 </head>
 <body>
+<deck-stage width="1920" height="1080">
+<section data-label="01 Customer Intelligence Engine">
+<div class="slide">
+  <div class="leak leak-tl"></div>
+  <div class="leak leak-br"></div>
 
-<div class="slide-wrapper">
-<div class="slide" id="slide">
+  <!-- ANIMATED RADAR -->
+  <div class="radar-wrap">
+    <svg class="radar-svg" viewBox="0 0 820 820" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="arcgrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#6B3FA0"/>
+          <stop offset="33%" stop-color="#C04E8A"/>
+          <stop offset="66%" stop-color="#E06B50"/>
+          <stop offset="100%" stop-color="#F0A830"/>
+        </linearGradient>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#6B3FA0" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#6B3FA0" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <!-- Concentric rings -->
+      <circle cx="410" cy="410" r="390" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+      <circle cx="410" cy="410" r="330" stroke="rgba(0,0,0,0.045)" stroke-width="1"/>
+      <circle cx="410" cy="410" r="270" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
+      <circle cx="410" cy="410" r="210" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
+      <circle cx="410" cy="410" r="150" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
+      <circle cx="410" cy="410" r="90"  stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+      <!-- Gradient arc sweeps -->
+      <path d="M 410 20 A 390 390 0 0 1 800 410" stroke="url(#arcgrad)" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>
+      <path d="M 410 140 A 270 270 0 0 1 680 410" stroke="url(#arcgrad)" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+      <!-- Cross-hairs -->
+      <line x1="410" y1="10" x2="410" y2="810" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+      <line x1="10"  y1="410" x2="810" y2="410" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+      <line x1="120" y1="120" x2="700" y2="700" stroke="rgba(0,0,0,0.03)" stroke-width="1"/>
+      <line x1="700" y1="120" x2="120" y2="700" stroke="rgba(0,0,0,0.03)" stroke-width="1"/>
+      <!-- Cardinal dots -->
+      <circle cx="410" cy="20"  r="4" fill="#6B3FA0" opacity="0.8"/>
+      <circle cx="800" cy="410" r="4" fill="#C04E8A" opacity="0.8"/>
+      <circle cx="410" cy="800" r="4" fill="#E06B50" opacity="0.8"/>
+      <circle cx="20"  cy="410" r="4" fill="#F0A830" opacity="0.8"/>
+      <!-- Core glow -->
+      <circle cx="410" cy="410" r="52" fill="url(#coreGlow)"/>
+      <circle cx="410" cy="410" r="26" fill="rgba(107,63,160,0.35)"/>
+      <circle class="radar-core" cx="410" cy="410" r="10" fill="white" opacity="0.7"/>
+    </svg>
+  </div>
 
-  <div class="leak leak-purple"></div>
-  <div class="leak leak-gold"></div>
-
-  <div class="grid">
-
-    <!-- LEFT -->
-    <div class="left">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
       <div class="logotype">Serra&thinsp;Fi</div>
-
+      <div class="presented-by">Presented by <strong>Daivik Suresh</strong></div>
       <div class="title-block">
-        <div class="title-kicker">MSBAi Capstone · 2026</div>
-        <div class="title-main">
-          <div class="t1">Customer</div>
-          <div class="t2 grad-text">Intelligence</div>
-          <div class="t3">Engine</div>
-        </div>
-      </div>
-
-      <div class="divider-line"></div>
-
-      <div class="descriptor">
-        Using SerraFi's transaction data to identify <strong>high-value customers</strong>,
-        predict churn, and optimize retention — before revenue walks out the door.
-      </div>
-
-      <div class="rows">
-        <div class="row">
-          <div class="row-pip" style="background:#6B3FA0;"></div>
-          <div class="row-text">Customer segmentation by spending behavior &amp; LTV</div>
-        </div>
-        <div class="row">
-          <div class="row-pip" style="background:#C04E8A;"></div>
-          <div class="row-text">Churn prediction model with weekly risk scores</div>
-        </div>
-        <div class="row">
-          <div class="row-pip" style="background:#E06B50;"></div>
-          <div class="row-text">Cashback program optimization — cost vs. engagement</div>
-        </div>
-        <div class="row">
-          <div class="row-pip" style="background:#F0A830;"></div>
-          <div class="row-text">Retention playbook tied to model outputs</div>
-        </div>
-        <div class="row">
-          <div class="row-pip" style="background:linear-gradient(135deg,#6B3FA0,#F0A830);"></div>
-          <div class="row-text">Live dashboard for ongoing customer health monitoring</div>
-        </div>
+        <div class="t1">Customer</div>
+        <div class="t2 grad-text">Intelligence</div>
+        <div class="t3">Engine</div>
       </div>
     </div>
-
-    <!-- RIGHT -->
-    <div class="right">
-
-      <!-- Rotating radar rings -->
-      <div class="radar-wrap">
-        <svg class="radar-svg" viewBox="0 0 900 900" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="rg1" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#6B3FA0" stop-opacity="0.5"/>
-              <stop offset="100%" stop-color="#6B3FA0" stop-opacity="0"/>
-            </radialGradient>
-            <linearGradient id="arcgrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%"   stop-color="#6B3FA0"/>
-              <stop offset="33%"  stop-color="#C04E8A"/>
-              <stop offset="66%"  stop-color="#E06B50"/>
-              <stop offset="100%" stop-color="#F0A830"/>
-            </linearGradient>
-          </defs>
-          <!-- Concentric rings -->
-          <circle cx="450" cy="450" r="420" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
-          <circle cx="450" cy="450" r="360" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
-          <circle cx="450" cy="450" r="300" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
-          <circle cx="450" cy="450" r="240" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
-          <circle cx="450" cy="450" r="180" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-          <circle cx="450" cy="450" r="120" stroke="rgba(0,0,0,0.09)" stroke-width="1"/>
-          <!-- Gradient arc sweeps -->
-          <path d="M 450 30 A 420 420 0 0 1 870 450" stroke="url(#arcgrad)" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
-          <path d="M 450 150 A 300 300 0 0 1 750 450" stroke="url(#arcgrad)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-          <!-- Cross-hairs -->
-          <line x1="450" y1="20"  x2="450" y2="880" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
-          <line x1="20"  y1="450" x2="880" y2="450" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
-          <!-- Diagonal ticks -->
-          <line x1="120" y1="120" x2="780" y2="780" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
-          <line x1="780" y1="120" x2="120" y2="780" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
-          <!-- Cardinal dot markers -->
-          <circle cx="450" cy="30"  r="4" fill="#6B3FA0" opacity="0.9"/>
-          <circle cx="870" cy="450" r="4" fill="#C04E8A" opacity="0.9"/>
-          <circle cx="450" cy="870" r="4" fill="#E06B50" opacity="0.9"/>
-          <circle cx="30"  cy="450" r="4" fill="#F0A830" opacity="0.9"/>
-          <!-- Inner glow core -->
-          <circle cx="450" cy="450" r="56" fill="url(#rg1)"/>
-          <circle cx="450" cy="450" r="28" fill="rgba(107,63,160,0.4)"/>
-          <circle cx="450" cy="450" r="10" fill="#fff" opacity="0.7"/>
-        </svg>
-      </div>
-
-      <!-- Three core questions -->
-      <div class="questions">
-        <div class="q-card">
-          <div class="q-num grad-text">01</div>
-          <div class="q-body">
-            <div class="q-label" style="color:#C04E8A;">Segmentation</div>
-            <div class="q-text">Who are your best customers?</div>
-          </div>
-        </div>
-        <div class="q-card">
-          <div class="q-num" style="background:linear-gradient(90deg,#E06B50,#F0A830);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">02</div>
-          <div class="q-body">
-            <div class="q-label" style="color:#E06B50;">Prediction</div>
-            <div class="q-text">Who's about to leave?</div>
-          </div>
-        </div>
-        <div class="q-card">
-          <div class="q-num" style="background:linear-gradient(90deg,#6B3FA0,#C04E8A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">03</div>
-          <div class="q-body">
-            <div class="q-label" style="color:#6B3FA0;">Retention</div>
-            <div class="q-text">What keeps them?</div>
-          </div>
-        </div>
-      </div>
-
+    <div class="header-right">
+      <div class="kicker-tag">MSBAi Capstone · 2026</div>
+      <div class="nyu-tag">NYU Stern</div>
     </div>
   </div>
 
-  <!-- Bottom Bar -->
+  <!-- GRADIENT RULE -->
+  <div class="rule"></div>
+
+  <!-- THREE COLUMNS -->
+  <div class="columns">
+
+    <!-- COL 1: About the Company -->
+    <div class="col">
+      <div class="col-label">About SerraFi</div>
+      <div class="about-stats">
+
+        <div class="stat-row">
+          <div class="stat-icon" style="background:rgba(107,63,160,0.08);">
+            <!-- Bank/Card icon -->
+            <svg viewBox="0 0 28 28" fill="none">
+              <rect x="3" y="7" width="22" height="14" rx="3" stroke="#6B3FA0" stroke-width="2"/>
+              <path d="M3 11h22" stroke="#6B3FA0" stroke-width="2"/>
+              <rect x="6" y="15" width="5" height="3" rx="1" fill="#6B3FA0"/>
+            </svg>
+          </div>
+          <div class="stat-copy">
+            <div class="stat-big">Business Banking</div>
+            <div class="stat-sub">All-in-one financial platform</div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-icon" style="background:rgba(192,78,138,0.08);">
+            <!-- Cashback/% icon -->
+            <svg viewBox="0 0 28 28" fill="none">
+              <circle cx="14" cy="14" r="10" stroke="#C04E8A" stroke-width="2"/>
+              <path d="M9.5 18.5l9-9" stroke="#C04E8A" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="10.5" cy="10.5" r="1.5" fill="#C04E8A"/>
+              <circle cx="17.5" cy="17.5" r="1.5" fill="#C04E8A"/>
+            </svg>
+          </div>
+          <div class="stat-copy">
+            <div class="stat-big">Up to 2% Cashback</div>
+            <div class="stat-sub">On every business purchase</div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-icon" style="background:rgba(224,107,80,0.08);">
+            <!-- Lightning/Payments icon -->
+            <svg viewBox="0 0 28 28" fill="none">
+              <path d="M16 4L8 16h7l-3 8 9-13h-7l2-7z" stroke="#E06B50" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="stat-copy">
+            <div class="stat-big">Instant Payments</div>
+            <div class="stat-sub">Move money in real time</div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-icon" style="background:rgba(240,168,48,0.10);">
+            <!-- Multi-industry icon -->
+            <svg viewBox="0 0 28 28" fill="none">
+              <rect x="4" y="16" width="5" height="8" rx="1" stroke="#F0A830" stroke-width="2"/>
+              <rect x="11" y="10" width="5" height="14" rx="1" stroke="#F0A830" stroke-width="2"/>
+              <rect x="18" y="4" width="5" height="20" rx="1" stroke="#F0A830" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="stat-copy">
+            <div class="stat-big">6+ Industries</div>
+            <div class="stat-sub">Healthcare, logistics, auto &amp; more</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-divider"></div>
+
+    <!-- COL 2: The Problem -->
+    <div class="col">
+      <div class="col-label">The Problem</div>
+      <div class="problem-items">
+
+        <div class="problem-item">
+          <div class="problem-num">01</div>
+          <div class="problem-text">Who are the highest-value customers?</div>
+        </div>
+
+        <div class="problem-item">
+          <div class="problem-num">02</div>
+          <div class="problem-text">Which customers are at risk of churning?</div>
+        </div>
+
+        <div class="problem-item">
+          <div class="problem-num">03</div>
+          <div class="problem-text">Is the cashback program driving retention — or just cost?</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-divider"></div>
+
+    <!-- COL 3: The Data -->
+    <div class="col" style="padding-left:36px;padding-right:0;">
+      <div class="col-label">The Data</div>
+      <div class="data-items">
+
+        <div class="data-item">
+          <div class="data-pip" style="background:#6B3FA0;"></div>
+          <div class="data-copy">
+            <div class="data-big">Transaction records</div>
+            <div class="data-label">across the full customer base</div>
+          </div>
+        </div>
+
+        <div class="data-item">
+          <div class="data-pip" style="background:#C04E8A;"></div>
+          <div class="data-copy">
+            <div class="data-big">Cashback activity</div>
+            <div class="data-label">spend, rewards earned &amp; redeemed</div>
+          </div>
+        </div>
+
+        <div class="data-item">
+          <div class="data-pip" style="background:#E06B50;"></div>
+          <div class="data-copy">
+            <div class="data-big">Payment behavior</div>
+            <div class="data-label">frequency, volume &amp; timing signals</div>
+          </div>
+        </div>
+
+        <div class="data-item">
+          <div class="data-pip" style="background:#F0A830;"></div>
+          <div class="data-copy">
+            <div class="data-big">Customer lifecycle</div>
+            <div class="data-label">onboarding, tenure &amp; engagement</div>
+          </div>
+        </div>
+
+        <div class="data-item">
+          <div class="data-pip" style="background:rgba(107,63,160,0.35);"></div>
+          <div class="data-copy">
+            <div class="data-big">Card controls</div>
+            <div class="data-label">usage patterns &amp; limit behavior</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM BAR -->
   <div class="bottom">
     <div class="b-left">NYU Stern MSBAi · Capstone 2026</div>
     <div class="b-center">
@@ -439,17 +612,47 @@
   </div>
 
 </div>
-</div>
+</section>
+</deck-stage>
 
-<script>
-  // Scale slide to fit viewport, centered, preserving 16:9
-  function scaleSlide() {
-    const slide = document.getElementById('slide');
-    const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-    slide.style.transform = `translate(-50%, -50%) scale(${scale})`;
-  }
-  scaleSlide();
-  window.addEventListener('resize', scaleSlide);
+<div id="tweaks-root"></div>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "titleSize": 90,
+  "colLabelSize": 24,
+  "problemTextSize": 28,
+  "dataTextSize": 32,
+  "bgColor": "#F5F3EF"
+}/*EDITMODE-END*/;
+
+function TweaksApp() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    document.querySelectorAll('.t2').forEach(el => { el.style.fontSize = tweaks.titleSize + 'px'; });
+    document.querySelectorAll('.t1, .t3').forEach(el => { el.style.fontSize = (tweaks.titleSize * 0.956) + 'px'; });
+    document.querySelectorAll('.col-label').forEach(el => { el.style.fontSize = tweaks.colLabelSize + 'px'; });
+    document.querySelectorAll('.problem-text').forEach(el => { el.style.fontSize = tweaks.problemTextSize + 'px'; });
+    document.querySelectorAll('.data-big').forEach(el => { el.style.fontSize = tweaks.dataTextSize + 'px'; });
+    document.querySelectorAll('.slide').forEach(el => { el.style.background = tweaks.bgColor; });
+  }, [tweaks]);
+
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Typography">
+        <TweakSlider label="Title size" id="titleSize" min={60} max={120} step={2} value={tweaks.titleSize} onChange={v => setTweak('titleSize', v)} />
+        <TweakSlider label="Column label size" id="colLabelSize" min={16} max={32} step={1} value={tweaks.colLabelSize} onChange={v => setTweak('colLabelSize', v)} />
+        <TweakSlider label="Problem text size" id="problemTextSize" min={20} max={40} step={1} value={tweaks.problemTextSize} onChange={v => setTweak('problemTextSize', v)} />
+        <TweakSlider label="Data text size" id="dataTextSize" min={20} max={44} step={1} value={tweaks.dataTextSize} onChange={v => setTweak('dataTextSize', v)} />
+      </TweakSection>
+      <TweakSection label="Visuals">
+        <TweakColor label="Background" id="bgColor" value={tweaks.bgColor} onChange={v => setTweak('bgColor', v)} />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<TweaksApp />);
 </script>
 
 </body>
