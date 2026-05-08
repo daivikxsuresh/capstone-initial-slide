@@ -611,8 +611,8 @@
   }
 
   /* cashback progress bar */
-  .cb-bar-fill   { animation: barFill    5s ease-in-out infinite; }
-  .cb-bar-thumb  { animation: thumbSlide 5s ease-in-out infinite; }
+  .cb-bar-fill   { animation: barFill    8.5s ease-in-out infinite; }
+  .cb-bar-thumb  { animation: thumbSlide 8.5s ease-in-out infinite; }
 
   /* ── ANIMATED RADAR ── */
   .radar-wrap {
@@ -807,8 +807,8 @@
         <div class="cashback-mockup">
           <div class="cb-label">Cash Back This Month</div>
           <div class="cb-amount">
-            <span class="cb-amount-main">
-              <span class="cb-plus">+</span>$6,421<span class="cb-cents">.39</span>
+            <span class="cb-amount-main" id="cb-live-amt">
+              <span class="cb-plus">+</span>$0<span class="cb-cents">.00</span>
             </span>
           </div>
           <div class="cb-projected">Projected by Jul 31: $8,100.00</div>
@@ -1054,5 +1054,37 @@ function TweaksApp() {
 ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<TweaksApp />);
 </script>
 
+<script>
+(function() {
+  const CYCLE   = 8500;
+  const MAX_VAL = 6421.39;
+  // match CSS keyframe %s: fill 5%→68%, hold →86%, reset →97%, gap →100%
+  const F_START = 0.05, F_END = 0.68, H_END = 0.86, R_END = 0.97;
+
+  function easeInOut(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+  var el = document.getElementById('cb-live-amt');
+  if (!el) return;
+
+  var startTs = null;
+  function tick(ts) {
+    if (!startTs) startTs = ts;
+    var pct = ((ts - startTs) % CYCLE) / CYCLE;
+    var val = 0;
+    if (pct >= F_START && pct < F_END) {
+      val = easeInOut((pct - F_START) / (F_END - F_START)) * MAX_VAL;
+    } else if (pct >= F_END && pct < H_END) {
+      val = MAX_VAL;
+    }
+    var dollars = Math.floor(val);
+    var cents   = String(Math.round((val - dollars) * 100)).padStart(2, '0');
+    el.innerHTML = '<span class="cb-plus">+</span>$' +
+      dollars.toLocaleString() +
+      '<span class="cb-cents">.' + cents + '</span>';
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
 </body>
 </html>
