@@ -546,6 +546,74 @@
     letter-spacing: 0.2px;
   }
 
+  /* ── LIVE MOCKUP ANIMATIONS ── */
+  @keyframes floatCard1 {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-8px); }
+  }
+  @keyframes floatCard2 {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-6px); }
+  }
+  @keyframes glowCycle {
+    0%, 100% { box-shadow: 0 0 0 1.5px rgba(107,63,160,0.5), 0 8px 32px rgba(107,63,160,0.16); }
+    33%       { box-shadow: 0 0 0 1.5px rgba(192,78,138,0.5), 0 8px 32px rgba(192,78,138,0.16); }
+    66%       { box-shadow: 0 0 0 1.5px rgba(224,107,80,0.5), 0 8px 32px rgba(224,107,80,0.14); }
+  }
+  @keyframes scanRow {
+    0%         { top: 58px;  opacity: 0; }
+    6%         { top: 58px;  opacity: 1; }
+    22%        { top: 98px;  opacity: 1; }
+    38%        { top: 138px; opacity: 1; }
+    54%        { top: 178px; opacity: 1; }
+    70%        { top: 218px; opacity: 1; }
+    88%, 100%  { top: 218px; opacity: 0; }
+  }
+  @keyframes barFill {
+    0%, 5%       { width: 0%; }
+    68%          { width: 79%; }
+    86%          { width: 79%; }
+    97%, 100%    { width: 0%; }
+  }
+  @keyframes thumbSlide {
+    0%, 5%       { left: 0%; }
+    68%          { left: 79%; }
+    86%          { left: 79%; }
+    97%, 100%    { left: 0%; }
+  }
+
+  /* apply float + glow to both cards */
+  .cards-mockup {
+    position: relative;
+    overflow: hidden;
+    animation: floatCard1 8s ease-in-out infinite,
+               glowCycle   6s ease-in-out infinite;
+  }
+  .cashback-mockup {
+    animation: floatCard2 10s ease-in-out infinite 1.5s,
+               glowCycle   6s  ease-in-out infinite 2s;
+  }
+
+  /* row scanner pseudo-element */
+  .cards-mockup::after {
+    content: '';
+    position: absolute;
+    left: 10px; right: 10px;
+    height: 36px;
+    background: linear-gradient(90deg,
+      rgba(107,63,160,0.08),
+      rgba(192,78,138,0.08),
+      rgba(224,107,80,0.05));
+    border-radius: 6px;
+    animation: scanRow 5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* cashback progress bar */
+  .cb-bar-fill   { animation: barFill    5s ease-in-out infinite; }
+  .cb-bar-thumb  { animation: thumbSlide 5s ease-in-out infinite; }
+
   /* ── ANIMATED RADAR ── */
   .radar-wrap {
     position: absolute;
