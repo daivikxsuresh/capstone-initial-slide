@@ -305,6 +305,119 @@
     display: block;
   }
 
+  /* ── CARDS MOCKUP ── */
+  .cards-mockup {
+    margin-top: 22px;
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(0,0,0,0.07);
+    border-radius: 16px;
+    padding: 18px 20px 14px;
+    box-shadow: 0 4px 24px rgba(107,63,160,0.08), 0 1px 4px rgba(0,0,0,0.06);
+    backdrop-filter: blur(8px);
+  }
+  .cm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .cm-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0A0A14;
+    letter-spacing: -0.3px;
+  }
+  .cm-new-btn {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.45);
+    background: rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    padding: 4px 10px;
+    letter-spacing: 0.2px;
+  }
+  .cm-col-heads {
+    display: grid;
+    grid-template-columns: 1.6fr 1.3fr 1.3fr 1fr 0.5fr;
+    gap: 0;
+    padding: 0 4px 6px;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    margin-bottom: 4px;
+  }
+  .cm-col-head {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.38);
+    letter-spacing: 0.2px;
+  }
+  .cm-row {
+    display: grid;
+    grid-template-columns: 1.6fr 1.3fr 1.3fr 1fr 0.5fr;
+    gap: 0;
+    padding: 9px 4px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    align-items: center;
+  }
+  .cm-row:last-child { border-bottom: none; }
+  .cm-row-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0A0A14;
+    letter-spacing: -0.2px;
+  }
+  .cm-row-name.dim { color: rgba(0,0,0,0.42); font-weight: 500; }
+  .cm-card-num {
+    font-size: 13px;
+    color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .cm-card-icon {
+    width: 14px; height: 10px;
+    border: 1.5px solid rgba(0,0,0,0.3);
+    border-radius: 2px;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .cm-limit {
+    font-size: 13px;
+    color: rgba(0,0,0,0.6);
+    font-weight: 500;
+  }
+  .cm-lock {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.1px;
+    display: inline-block;
+  }
+  .cm-lock-merchant {
+    background: rgba(107,63,160,0.1);
+    color: #6B3FA0;
+    border: 1px solid rgba(107,63,160,0.2);
+  }
+  .cm-lock-category {
+    background: rgba(192,78,138,0.08);
+    color: #C04E8A;
+    border: 1px solid rgba(192,78,138,0.2);
+  }
+  .cm-lock-add {
+    background: transparent;
+    color: rgba(0,0,0,0.3);
+    border: 1px solid rgba(0,0,0,0.12);
+  }
+  .cm-status {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,0,0,0.2);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cm-status-pause::before { content: '⏸'; font-size: 10px; opacity: 0.4; }
+  .cm-status-play::before  { content: '▶'; font-size: 9px; opacity: 0.4; }
+
   /* ── ANIMATED RADAR ── */
   .radar-wrap {
     position: absolute;
@@ -520,6 +633,57 @@
         </div>
 
       </div>
+
+      <!-- CARDS PRODUCT MOCKUP -->
+      <div class="cards-mockup">
+        <div class="cm-header">
+          <div class="cm-title">Cards</div>
+          <div class="cm-new-btn">New card +</div>
+        </div>
+        <div class="cm-col-heads">
+          <div class="cm-col-head">Name</div>
+          <div class="cm-col-head">Card</div>
+          <div class="cm-col-head">Limit</div>
+          <div class="cm-col-head">Locks</div>
+          <div class="cm-col-head"></div>
+        </div>
+        <div class="cm-row">
+          <div class="cm-row-name">AWS</div>
+          <div class="cm-card-num"><span class="cm-card-icon"></span>••1440</div>
+          <div class="cm-limit">$1,000/mo</div>
+          <div><span class="cm-lock cm-lock-merchant">Merchant</span></div>
+          <div class="cm-status cm-status-pause"></div>
+        </div>
+        <div class="cm-row">
+          <div class="cm-row-name">Office Supplies</div>
+          <div class="cm-card-num"><span class="cm-card-icon"></span>••1823</div>
+          <div class="cm-limit">$500/wk</div>
+          <div><span class="cm-lock cm-lock-category">Category</span></div>
+          <div class="cm-status cm-status-pause"></div>
+        </div>
+        <div class="cm-row">
+          <div class="cm-row-name dim">Travel</div>
+          <div class="cm-card-num"><span class="cm-card-icon"></span>••9549</div>
+          <div class="cm-limit" style="color:rgba(0,0,0,0.35);">$1,000/mo</div>
+          <div><span class="cm-lock cm-lock-add">+ Add lock</span></div>
+          <div class="cm-status cm-status-play"></div>
+        </div>
+        <div class="cm-row">
+          <div class="cm-row-name">Google Cloud</div>
+          <div class="cm-card-num"><span class="cm-card-icon"></span>••1001</div>
+          <div class="cm-limit">$2,000/mo</div>
+          <div><span class="cm-lock cm-lock-add">+ Add lock</span></div>
+          <div class="cm-status cm-status-pause"></div>
+        </div>
+        <div class="cm-row">
+          <div class="cm-row-name dim">Marketing</div>
+          <div class="cm-card-num"><span class="cm-card-icon"></span>••1003</div>
+          <div class="cm-limit" style="color:rgba(0,0,0,0.35);">$4,000/mo</div>
+          <div><span class="cm-lock cm-lock-add">+ Add lock</span></div>
+          <div class="cm-status cm-status-play"></div>
+        </div>
+      </div>
+
     </div>
 
     <div class="col-divider"></div>
