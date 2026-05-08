@@ -306,8 +306,14 @@
   }
 
   /* ── CARDS MOCKUP ── */
+  .header-left-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 36px;
+  }
+
   .cards-mockup {
-    margin-top: 22px;
+    margin-top: 4px;
     background: rgba(255,255,255,0.72);
     border: 1px solid rgba(0,0,0,0.07);
     border-radius: 16px;
@@ -550,10 +556,63 @@
     <div class="header-left">
       <div class="logotype">Serra&thinsp;Fi</div>
       <div class="presented-by">Presented by <strong>Daivik Suresh</strong></div>
-      <div class="title-block">
-        <div class="t1">Customer</div>
-        <div class="t2 grad-text">Intelligence</div>
-        <div class="t3">Engine</div>
+      <div class="header-left-body">
+        <div class="title-block">
+          <div class="t1">Customer</div>
+          <div class="t2 grad-text">Intelligence</div>
+          <div class="t3">Engine</div>
+        </div>
+
+        <!-- CARDS PRODUCT MOCKUP -->
+        <div class="cards-mockup">
+          <div class="cm-header">
+            <div class="cm-title">Cards</div>
+            <div class="cm-new-btn">New card +</div>
+          </div>
+          <div class="cm-col-heads">
+            <div class="cm-col-head">Name</div>
+            <div class="cm-col-head">Card</div>
+            <div class="cm-col-head">Limit</div>
+            <div class="cm-col-head">Locks</div>
+            <div class="cm-col-head"></div>
+          </div>
+          <div class="cm-row">
+            <div class="cm-row-name">AWS</div>
+            <div class="cm-card-num"><span class="cm-card-icon"></span>••1440</div>
+            <div class="cm-limit">$1,000/mo</div>
+            <div><span class="cm-lock cm-lock-merchant">Merchant</span></div>
+            <div class="cm-status cm-status-pause"></div>
+          </div>
+          <div class="cm-row">
+            <div class="cm-row-name">Office Supplies</div>
+            <div class="cm-card-num"><span class="cm-card-icon"></span>••1823</div>
+            <div class="cm-limit">$500/wk</div>
+            <div><span class="cm-lock cm-lock-category">Category</span></div>
+            <div class="cm-status cm-status-pause"></div>
+          </div>
+          <div class="cm-row">
+            <div class="cm-row-name dim">Travel</div>
+            <div class="cm-card-num"><span class="cm-card-icon"></span>••9549</div>
+            <div class="cm-limit" style="color:rgba(0,0,0,0.35);">$1,000/mo</div>
+            <div><span class="cm-lock cm-lock-add">+ Add lock</span></div>
+            <div class="cm-status cm-status-play"></div>
+          </div>
+          <div class="cm-row">
+            <div class="cm-row-name">Google Cloud</div>
+            <div class="cm-card-num"><span class="cm-card-icon"></span>••1001</div>
+            <div class="cm-limit">$2,000/mo</div>
+            <div><span class="cm-lock cm-lock-add">+ Add lock</span></div>
+            <div class="cm-status cm-status-pause"></div>
+          </div>
+          <div class="cm-row">
+            <div class="cm-row-name dim">Marketing</div>
+            <div class="cm-card-num"><span class="cm-card-icon"></span>••1003</div>
+            <div class="cm-limit" style="color:rgba(0,0,0,0.35);">$4,000/mo</div>
+            <div><span class="cm-lock cm-lock-add">+ Add lock</span></div>
+            <div class="cm-status cm-status-play"></div>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="header-right">
@@ -632,56 +691,6 @@
           </div>
         </div>
 
-      </div>
-
-      <!-- CARDS PRODUCT MOCKUP -->
-      <div class="cards-mockup">
-        <div class="cm-header">
-          <div class="cm-title">Cards</div>
-          <div class="cm-new-btn">New card +</div>
-        </div>
-        <div class="cm-col-heads">
-          <div class="cm-col-head">Name</div>
-          <div class="cm-col-head">Card</div>
-          <div class="cm-col-head">Limit</div>
-          <div class="cm-col-head">Locks</div>
-          <div class="cm-col-head"></div>
-        </div>
-        <div class="cm-row">
-          <div class="cm-row-name">AWS</div>
-          <div class="cm-card-num"><span class="cm-card-icon"></span>••1440</div>
-          <div class="cm-limit">$1,000/mo</div>
-          <div><span class="cm-lock cm-lock-merchant">Merchant</span></div>
-          <div class="cm-status cm-status-pause"></div>
-        </div>
-        <div class="cm-row">
-          <div class="cm-row-name">Office Supplies</div>
-          <div class="cm-card-num"><span class="cm-card-icon"></span>••1823</div>
-          <div class="cm-limit">$500/wk</div>
-          <div><span class="cm-lock cm-lock-category">Category</span></div>
-          <div class="cm-status cm-status-pause"></div>
-        </div>
-        <div class="cm-row">
-          <div class="cm-row-name dim">Travel</div>
-          <div class="cm-card-num"><span class="cm-card-icon"></span>••9549</div>
-          <div class="cm-limit" style="color:rgba(0,0,0,0.35);">$1,000/mo</div>
-          <div><span class="cm-lock cm-lock-add">+ Add lock</span></div>
-          <div class="cm-status cm-status-play"></div>
-        </div>
-        <div class="cm-row">
-          <div class="cm-row-name">Google Cloud</div>
-          <div class="cm-card-num"><span class="cm-card-icon"></span>••1001</div>
-          <div class="cm-limit">$2,000/mo</div>
-          <div><span class="cm-lock cm-lock-add">+ Add lock</span></div>
-          <div class="cm-status cm-status-pause"></div>
-        </div>
-        <div class="cm-row">
-          <div class="cm-row-name dim">Marketing</div>
-          <div class="cm-card-num"><span class="cm-card-icon"></span>••1003</div>
-          <div class="cm-limit" style="color:rgba(0,0,0,0.35);">$4,000/mo</div>
-          <div><span class="cm-lock cm-lock-add">+ Add lock</span></div>
-          <div class="cm-status cm-status-play"></div>
-        </div>
       </div>
 
     </div>
